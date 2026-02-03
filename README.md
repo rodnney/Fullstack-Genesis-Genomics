@@ -1,31 +1,36 @@
-# Biotech-X Challenge - Plataforma de Análise de Espectrometria de Massa
+# Biotech Platform - Multi-Challenge Architecture
 
-Solução completa para análise de dados de espectrometria de massa com arquitetura cloud-native, focada em alta disponibilidade, escalabilidade e boas práticas DevOps.
+Plataforma completa com múltiplos desafios técnicos integrando diferentes stacks tecnológicas.
 
 ## 🏗️ Arquitetura
 
+### Challenge 01 - DevOps (Proteomics Analysis)
 - **Frontend**: Next.js (React/TypeScript)
 - **Backend**: FastAPI (Python)
 - **Infraestrutura**: AWS (EKS, RDS, S3, Batch)
 - **Orquestração**: Kubernetes + Docker
-- **IaC**: Terraform
-- **CI/CD**: GitHub Actions
+
+### Challenge 02 - Genomics (Genesis Genomics)
+- **Frontend**: Angular 16 + NgRx
+- **Backend**: Django + Django REST Framework
+- **Database**: PostgreSQL
+- **State Management**: NgRx (Store, Effects, Entity)
 
 ## 📁 Estrutura do Projeto
 
 ```
-biotech-x-challenge/
-├── app/
+biotech-platform/
+├── challenge-01-devops/
 │   ├── backend/          # API FastAPI
 │   └── frontend/         # App Next.js
+├── challenge-02-genomics/
+│   ├── backend/          # API Django
+│   └── frontend/         # App Angular
 ├── infra/
-│   ├── main.tf          # Recursos AWS (EKS, RDS, S3)
-│   ├── variables.tf     # Variáveis do Terraform
-│   ├── outputs.tf       # Outputs (ARNs, endpoints)
+│   ├── main.tf          # Recursos AWS
 │   └── k8s/            # Manifestos Kubernetes
-├── .github/workflows/   # Pipelines CI/CD
-├── docs/               # Documentação (GitHub Pages)
-└── docker-compose.yml  # Desenvolvimento local
+├── docs/               # Documentação
+└── docker-compose.yml  # Orquestração de todos os serviços
 ```
 
 ## 🚀 Execução Local
@@ -35,75 +40,55 @@ biotech-x-challenge/
 - Docker & Docker Compose
 - Node.js 18+ (para desenvolvimento frontend)
 - Python 3.11+ (para desenvolvimento backend)
-- Terraform (para validação IaC)
 
-### 1. Desenvolvimento com Docker Compose
+### Iniciar Todos os Serviços
 
 ```powershell
-# Clone o repositório
-git clone <seu-repo>
-cd biotech-x-challenge
-
-# Suba os serviços localmente
+# Subir todos os serviços
 docker-compose up --build
 
-# Acesse:
-# Frontend: http://localhost:3000
-# Backend API: http://localhost:8000
-# Docs API: http://localhost:8000/docs
+# Acessar:
+# Dashboard Principal: http://localhost:3000
+# Challenge 01 (Proteomics): http://localhost:3000/dashboard
+# Challenge 02 (Genomics): http://localhost:4200
+# API FastAPI: http://localhost:8000
+# API Django: http://localhost:8001
 ```
 
-### 2. Desenvolvimento com LocalStack (AWS Local)
+### Challenge 01 - Proteomics (FastAPI + Next.js)
 
-Para simular serviços AWS localmente:
-
-```bash
-# Instale LocalStack
-pip install localstack
-
-# Suba LocalStack
-localstack start
-
-# Configure credenciais de demonstração
-$env:AWS_ACCESS_KEY_ID="demo-access-key"
-$env:AWS_SECRET_ACCESS_KEY="demo-secret-key"
-$env:AWS_DEFAULT_REGION="us-east-1"
-$env:AWS_ENDPOINT_URL="http://localhost:4566"
-
-# Valide o Terraform
-cd infra
-terraform init
-terraform validate
-terraform plan -var="github_repository=rodnney/biotech-x-challenge"
-```
-
-### 3. Desenvolvimento Individual
-
-**Backend (FastAPI):**
 ```powershell
-# Windows PowerShell
-cd app/backend
+# Backend
+cd challenge-01-devops/backend
 python -m venv venv
-venv\Scripts\Activate.ps1  # ou venv\Scripts\activate
+venv\Scripts\activate
 pip install -r requirements.txt
 uvicorn main:app --reload --host 0.0.0.0 --port 8000
-```
 
-```bash
-# Linux/Mac
-cd app/backend
-python -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-uvicorn main:app --reload --host 0.0.0.0 --port 8000
-```
-
-**Frontend (Next.js):**
-```powershell
-cd app/frontend
+# Frontend
+cd challenge-01-devops/frontend
 npm install
 npm run dev
-# Acesse: http://localhost:3000
+```
+
+### Challenge 02 - Genomics (Django + Angular)
+
+```powershell
+# Backend Django
+cd challenge-02-genomics/backend
+python -m venv venv
+venv\Scripts\activate
+pip install -r requirements.txt
+python manage.py migrate
+python manage.py runserver
+
+# Importar dados (coloque siteA.txt e siteB.txt na raiz do backend)
+python manage.py import_genes --siteA=siteA.txt --siteB=siteB.txt
+
+# Frontend Angular
+cd challenge-02-genomics/frontend
+npm install
+ng serve
 ```
 
 ## 🔧 Configuração de Desenvolvimento

@@ -1,9 +1,13 @@
-# Docker Compose para desenvolvimento local
-# Remove version (obsoleto no Docker Compose v2+)
+# Docker Compose - Multi-Challenge Architecture
+# Orquestra todos os serviços dos desafios 1 e 2
 
 services:
-  # PostgreSQL Database
-  postgres:
+  # ============================================
+  # CHALLENGE 01 - DevOps (FastAPI + Next.js)
+  # ============================================
+  
+  # PostgreSQL Database - Challenge 01
+  postgres_devops:
     image: postgres:14-alpine
     container_name: biotech-postgres
     environment:
@@ -13,9 +17,11 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - postgres_devops_data:/var/lib/postgresql/data
+    networks:
+      - biotech-network
 
-  # LocalStack (AWS Services Emulator)
+  # LocalStack (AWS Services Emulator) - Challenge 01
   localstack:
     image: localstack/localstack:latest
     container_name: biotech-localstack
@@ -27,17 +33,19 @@ services:
       - DATA_DIR=/tmp/localstack/data
     volumes:
       - localstack_data:/tmp/localstack
+    networks:
+      - biotech-network
 
-  # Backend API (FastAPI)
-  backend:
+  # Backend API (FastAPI) - Challenge 01
+  backend_fastapi:
     build:
-      context: ./app/backend
+      context: ./challenge-01-devops/backend
       dockerfile: Dockerfile
-    container_name: biotech-backend
+    container_name: biotech-backend-fastapi
     ports:
       - "8000:8000"
     environment:
-      - DATABASE_URL=postgresql://admin_user:ChangeMeInProduction123!@postgres:5432/biotech_db
+      - DATABASE_URL=postgresql://admin_user:ChangeMeInProduction123!@postgres_devops:5432/biotech_db
       - AWS_ENDPOINT_URL=http://localstack:4566
       - AWS_ACCESS_KEY_ID=demo-access-key
       - AWS_SECRET_ACCESS_KEY=demo-secret-key
@@ -45,36 +53,105 @@ services:
       - S3_INPUT_BUCKET=biotech-input-local
       - S3_OUTPUT_BUCKET=biotech-output-local
     depends_on:
-      - postgres
+      - postgres_devops
       - localstack
     volumes:
-      - ./app/backend:/app
+      - ./challenge-01-devops/backend:/app
     command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+    networks:
+      - biotech-network
 
-  # Frontend (Next.js)
-  frontend:
+  # Frontend (Next.js) - Challenge 01
+  frontend_nextjs:
     build:
-      context: ./app/frontend
+      context: ./challenge-01-devops/frontend
       dockerfile: Dockerfile
-    container_name: biotech-frontend
+    container_name: biotech-frontend-nextjs
     ports:
       - "3000:3000"
     environment:
       - NEXT_PUBLIC_API_URL=http://localhost:8000
+      - NEXT_PUBLIC_GENOMICS_URL=http://localhost:4200
       - NODE_ENV=development
     depends_on:
-      - backend
+      - backend_fastapi
     volumes:
-      - ./app/frontend:/app
+      - ./challenge-01-devops/frontend:/app
       - /app/node_modules
     command: npm run dev
+    networks:
+      - biotech-network
+
+  # ============================================
+  # CHALLENGE 02 - Genomics (Django + Angular)
+  # ============================================
+  
+  # PostgreSQL Database - Challenge 02
+  postgres_genomics:
+    image: postgres:14-alpine
+    container_name: genomics-postgres
+    environment:
+      POSTGRES_DB: genomics_db
+      POSTGRES_USER: genomics_user
+      POSTGRES_PASSWORD: GenomicsPass123!
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_genomics_data:/var/lib/postgresql/data
+    networks:
+      - biotech-network
+
+  # Backend API (Django) - Challenge 02
+  backend_django:
+    build:
+      context: ./challenge-02-genomics/backend
+      dockerfile: Dockerfile
+    container_name: genomics-backend-django
+    ports:
+      - "8001:8000"
+    environment:
+      - DB_NAME=genomics_db
+      - DB_USER=genomics_user
+      - DB_PASSWORD=GenomicsPass123!
+      - DB_HOST=postgres_genomics
+      - DB_PORT=5432
+      - DJANGO_SETTINGS_MODULE=core.settings
+      - PYTHONUNBUFFERED=1
+    depends_on:
+      - postgres_genomics
+    volumes:
+      - ./challenge-02-genomics/backend:/app
+    command: python manage.py runserver 0.0.0.0:8000
+    networks:
+      - biotech-network
+
+  # Frontend (Angular) - Challenge 02
+  frontend_angular:
+    build:
+      context: ./challenge-02-genomics/frontend
+      dockerfile: Dockerfile
+    container_name: genomics-frontend-angular
+    ports:
+      - "4200:4200"
+    environment:
+      - API_URL=http://localhost:8001
+    depends_on:
+      - backend_django
+    volumes:
+      - ./challenge-02-genomics/frontend:/app
+      - /app/node_modules
+    command: ng serve --host 0.0.0.0 --port 4200
+    networks:
+      - biotech-network
 
 volumes:
-  postgres_data:
+  postgres_devops_data:
+    driver: local
+  postgres_genomics_data:
     driver: local
   localstack_data:
     driver: local
 
 networks:
-  default:
-    name: biotech-network
+  biotech-network:
+    driver: bridge

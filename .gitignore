@@ -282,3 +282,11 @@ secrets/
 
 # Pre-commit
 .pre-commit-config.yaml
+
+temp/
+
+# Old structure (moved to challenges)
+app/
+
+# Angular
+.angular/

@@ -53,10 +53,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "genesis-genomics:build:production"
+              "browserTarget": "genesis-genomics:build:production"
             },
             "development": {
-              "buildTarget": "genesis-genomics:build:development"
+              "browserTarget": "genesis-genomics:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -64,7 +64,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "genesis-genomics:build"
+            "browserTarget": "genesis-genomics:build"
           }
         },
         "test": {
@@ -79,5 +79,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "53c8ac8a-b021-41b2-922e-118ce077ff68"
   }
 }

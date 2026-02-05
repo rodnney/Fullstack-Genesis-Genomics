@@ -59,11 +59,34 @@ class Command(BaseCommand):
 
         try:
             with open(site_a_path, 'r', encoding='utf-8') as f:
-                reader = csv.DictReader(f, delimiter='\t')
+                # Ler todas as linhas
+                all_lines = f.readlines()
+
+                # Encontrar a linha de cabeçalho (última linha de comentário)
+                header_line = None
+                data_start_idx = 0
+                for idx, line in enumerate(all_lines):
+                    if line.startswith('#'):
+                        # Remover o # e espaços do início
+                        potential_header = line.lstrip('# ').strip()
+                        if 'MIM Number' in potential_header:
+                            header_line = potential_header
+                            data_start_idx = idx + 1
+
+                if not header_line:
+                    self.stdout.write(self.style.ERROR('Cabeçalho não encontrado no arquivo!'))
+                    return
+
+                # Criar lista com cabeçalho e dados
+                data_lines = [header_line] + [line for line in all_lines[data_start_idx:] if line.strip()]
+
+                reader = csv.DictReader(data_lines, delimiter='\t')
 
                 for row in reader:
-                    entrez_gene_id = row.get('Entrez Gene ID (NCBI)', '').strip()
-                    mim_number = row.get('MIM Number', '').strip()
+                    entrez_gene_id = row.get('Entrez Gene ID (NCBI)', '') or ''
+                    entrez_gene_id = entrez_gene_id.strip()
+                    mim_number = row.get('MIM Number', '') or ''
+                    mim_number = mim_number.strip()
 
                     if not entrez_gene_id:
                         continue

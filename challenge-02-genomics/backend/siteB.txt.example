@@ -1,0 +1,101 @@
+[
+  {
+    "groupName": "1-acylglycerol-3-phosphate O-acyltransferases",
+    "aliases": [
+      "LPAAT-alpha",
+      "LPLAT1"
+    ],
+    "approvedSymbol": "AGPAT1",
+    "chromosome": "6p21.32",
+    "groupID": 46,
+    "locusType": "gene with protein product",
+    "approvedName": "1-acylglycerol-3-phosphate O-acyltransferase 1",
+    "status": "Approved",
+    "vegaGeneID": "OTTHUMG00000031210",
+    "hgncID": "HGNC:324",
+    "ensemblGeneID": "ENSG00000204310",
+    "ncbiGeneID": 10554
+  },
+  {
+    "previousSymbols": [
+      "AYTL2"
+    ],
+    "ncbiGeneID": 79888,
+    "ensemblGeneID": "ENSG00000153390",
+    "hgncID": "HGNC:25718",
+    "vegaGeneID": "OTTHUMG00000131017",
+    "locusType": "gene with protein product",
+    "approvedName": "lysophosphatidylcholine acyltransferase 1",
+    "status": "Approved",
+    "chromosome": "5p15.33",
+    "groupID": 46,
+    "approvedSymbol": "LPCAT1",
+    "groupName": "1-acylglycerol-3-phosphate O-acyltransferases",
+    "aliases": [
+      "FLJ12443",
+      "AGPAT9",
+      "AGPAT10",
+      "LPLAT8"
+    ]
+  },
+  {
+    "groupName": "1-acylglycerol-3-phosphate O-acyltransferases",
+    "aliases": [
+      "FLJ20481",
+      "AGPAT11",
+      "LysoPAFAT",
+      "LPLAT9"
+    ],
+    "approvedSymbol": "LPCAT2",
+    "chromosome": "16q12.2",
+    "groupID": 46,
+    "locusType": "gene with protein product",
+    "approvedName": "lysophosphatidylcholine acyltransferase 2",
+    "status": "Approved",
+    "vegaGeneID": "OTTHUMG00000133238",
+    "hgncID": "HGNC:26032",
+    "previousSymbols": [
+      "AYTL1"
+    ],
+    "ensemblGeneID": "ENSG00000087253",
+    "ncbiGeneID": 54947
+  },
+  {
+    "chromosome": "9q34.3",
+    "groupID": 46,
+    "approvedSymbol": "AGPAT2",
+    "groupName": "1-acylglycerol-3-phosphate O-acyltransferases",
+    "aliases": [
+      "LPAAT-beta",
+      "LPLAT2"
+    ],
+    "previousSymbols": [
+      "BSCL"
+    ],
+    "ensemblGeneID": "ENSG00000169692",
+    "ncbiGeneID": 10555,
+    "hgncID": "HGNC:325",
+    "vegaGeneID": "OTTHUMG00000020936",
+    "locusType": "gene with protein product",
+    "approvedName": "1-acylglycerol-3-phosphate O-acyltransferase 2",
+    "status": "Approved"
+  },
+  {
+    "approvedSymbol": "AGPAT3",
+    "chromosome": "21q22.3",
+    "groupID": 46,
+    "groupName": "1-acylglycerol-3-phosphate O-acyltransferases",
+    "aliases": [
+      "LPAAT-gamma",
+      "LPAAT3",
+      "LPLAT3"
+    ],
+    "hgncID": "HGNC:326",
+    "ensemblGeneID": "ENSG00000160216",
+    "ncbiGeneID": 56894,
+    "approvedName": "1-acylglycerol-3-phosphate O-acyltransferase 3",
+    "locusType": "gene with protein product",
+    "status": "Approved",
+    "vegaGeneID": "OTTHUMG00000086892"
+  }
+]
